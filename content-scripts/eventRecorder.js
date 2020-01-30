@@ -26,6 +26,7 @@ const eventRecorder = {
 
     start(token){
         eventRecorder.conn = chrome.runtime.connect({name: token});
+        eventRecorder.conn.postMessage(`cy.visit('${window.location.href.replace(/'/g,"\\'")}');`);
         eventRecorder._addDomListeners();
     },
 
@@ -49,9 +50,7 @@ const eventRecorder = {
     listen(){
         // listen for msgs coming from popup
         chrome.runtime.onMessage.addListener((req) => {
-            console.log(req.msg);
             eventRecorder[req.msg](req.token);
-            console.log(eventRecorder[req.msg])
         });
     }
 };

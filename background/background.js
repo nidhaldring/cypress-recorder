@@ -27,7 +27,7 @@ function handlePopupConnection(conn){
                     ok = (await session.sendData()).ok;
                 }catch(err){}
                 session.clear();
-                conn.postMessage({ok});
+                conn.postMessage({ok, token:session.token});
                 break;
             case "updateStatus":
                 session.status = req.status;
@@ -48,7 +48,7 @@ chrome.runtime.onConnect.addListener((conn) => {
 
 chrome.runtime.onMessage.addListener((req,sender,sendReponse) => {
     if(req.msg === "infos"){
-        sendReponse({status: session.status,token: session.token});
+        sendReponse({status: session.status,token: session.token,url: Session.URL});
         return true;
     }
 });

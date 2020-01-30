@@ -30,7 +30,7 @@ function setRecordingStatus(status){
 }
 
 // get background recording status,e.g : paused,halting ...
-async function getRecordingInfos(){
+function getRecordingInfos(){
     return new Promise((resolve,reject) => {
         chrome.runtime.sendMessage({msg:"infos"},(response) => {
             resolve(response);
@@ -103,6 +103,10 @@ withdrawBtn.onclick = () => {
     token.disabled = false;
 }
 
+gotoBtn.onclick = async () => {
+    const url = (await getRecordingInfos()).url;
+    chrome.tabs.create({url});
+}
 
 async function initUI(){
     const infos = await getRecordingInfos();
@@ -128,6 +132,7 @@ async function initUI(){
         case "on":
             setButtonsDisplay("block","none","none","none","none","none");
             token.disabled = false;
+            token.value = infos.token;
             hint.style.display = "block";
             break;
         default:
