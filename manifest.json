@@ -1,0 +1,28 @@
+{
+    "name": "cypress-ext",
+    "manifest_version": 2,
+    "version": "1",
+
+    "background": {
+        "scripts": ["background/session.js","background/background.js"],
+        "persistent": true
+    },
+
+    "content_scripts": [
+        {
+            "js": ["lib/cssesc.js","lib/finder.js","content-scripts/codeGenerator.js","content-scripts/eventRecorder.js"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+
+    "browser_action": {
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        },
+        "default_title": "cypress recroder",
+        "default_popup": "popup/popup.html"
+    }
+
+}
