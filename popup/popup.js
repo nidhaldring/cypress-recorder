@@ -23,10 +23,13 @@ function sendMessageToEventRecorder(msg){
     });
 }
 
+
+// change background recording statsu, e.g pause background recodring
 function setRecordingStatus(status){
     conn.postMessage({msg: "updateStatus",status});
 }
 
+// get background recording status,e.g : paused,halting ...
 async function getRecordingInfos(){
     return new Promise((resolve,reject) => {
         chrome.runtime.sendMessage({msg:"infos"},(response) => {
@@ -48,7 +51,7 @@ function setButtonsDisplay(startBtnDisplay,endBtnDisplay,resumeBtnDisplay,
 
 /* end utils */
 
-/* init ui */
+// set buttons event
 
 token.oninput = () => {
     if(token.value.length >= 20){
@@ -89,7 +92,7 @@ resumeBtn.onclick = () => {
 
 sendBtn.onclick = () => {
     // send msg to background
-    sendMessageToBackground({msg: "send"}); 
+    sendMessageToBackground({msg: "send"});
     setButtonsDisplay("block","none","none","none","none","none");
     token.disabled = false;
 }
@@ -121,6 +124,11 @@ async function initUI(){
             token.disabled = true;
             hint.style.display = "none";
             token.value = infos.token;
+            break;
+        case "on":
+            setButtonsDisplay("block","none","none","none","none","none");
+            token.disabled = false;
+            hint.style.display = "block";
             break;
         default:
             setButtonsDisplay("none","none","none","none","none","none");

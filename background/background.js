@@ -1,4 +1,4 @@
-
+"use strict";
 
 function handleEventRecorderConnection(conn){
     conn.onMessage.addListener((msg) => {
@@ -21,7 +21,7 @@ function handlePopupConnection(conn){
                 session.clear();
                 break;
             case "send":
-                session.status = "halting";
+                session.status = "on";
                 let ok = false;
                 try{
                     ok = (await session.sendData()).ok;
